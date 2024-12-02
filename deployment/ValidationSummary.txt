@@ -1,4 +1,4 @@
-(node:1852) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:1854) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Validating Deployment of v62.0 metadata to vedansh@creative-shark-ddvsjq.com using the v62.0 SOAP API.
 ───── Validating Deployment ─────
@@ -11,25 +11,27 @@ Stages:
 6. Done
 
 ▶ Preparing…
-   Deploy ID: 0AfdM00000BvBkTSAV
+   Deploy ID: 0AfdM00000Bv3KdSAJ
    Target Org: vedansh@creative-shark-ddvsjq.com
-✔ Preparing (242ms)
-▶ Waiting for the org to respond…
-✔ Waiting for the org to respond (13.39s)
+✔ Preparing (278ms)
+◯ Waiting for the org to respond - Skipped
 ▶ Deploying Metadata…
    Components: 0/6 (0%)
-✔ Deploying Metadata (784ms)
+✔ Deploying Metadata (760ms)
    Components: 6/6 (100%)
-◯ Running Tests - Skipped
+▶ Running Tests…
+   Tests: 2/3 (67%)
+✔ Running Tests (754ms)
+   Tests: 3/3 (100%)
 ◯ Updating Source Tracking - Skipped
 ▶ Done…
-✔ Done (1ms)
+✔ Done (0ms)
 
 Status: Succeeded
-Deploy ID: 0AfdM00000BvBkTSAV
+Deploy ID: 0AfdM00000Bv3KdSAJ
 Target Org: vedansh@creative-shark-ddvsjq.com
 
-Elapsed time: 14.42s
+Elapsed time: 1.79s
 
 [34m[1mValidated Source[22m[39m
  State    Name       Type       Path                                                  
@@ -52,11 +54,11 @@ Elapsed time: 14.42s
 Passing: 3
 Failing: 0
 Total: 3
-Time: 207
+Time: 198
 
-[1m[32mSuccessfully validated the deployment (0AfdM00000BvBkTSAV).[39m[22m
-Run "sf project deploy quick --job-id 0AfdM00000BvBkTSAV" to execute this deploy
+[1m[32mSuccessfully validated the deployment (0AfdM00000Bv3KdSAJ).[39m[22m
+Run "sf project deploy quick --job-id 0AfdM00000Bv3KdSAJ" to execute this deploy
 
 ----------------------------------------
-Validation completed at: Mon Dec  2 03:54:20 UTC 2024
+Validation completed at: Mon Dec  2 04:05:41 UTC 2024
 Branch: prod
