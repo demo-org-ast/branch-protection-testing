@@ -104,6 +104,12 @@ jobs:
           echo -e "\n----------------------------------------" >> deployment/ValidationSummary.txt
           echo "Validation completed at: $(date)" >> deployment/ValidationSummary.txt
           echo "Branch: ${{ github.ref_name }}" >> deployment/ValidationSummary.txt
+          
+          # Extract and add deploy command if validation succeeded
+          DEPLOY_CMD=$(grep -o "sf project deploy quick --job-id [0-9A-Za-z]\+" deployment/ValidationSummary.txt || true)
+          if [ ! -z "$DEPLOY_CMD" ]; then
+            echo "Deploy: $DEPLOY_CMD" >> deployment/ValidationSummary.txt
+          fi
 
       - name: Commit Validation Results
         if: always()
