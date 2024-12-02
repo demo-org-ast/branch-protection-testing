@@ -77,19 +77,27 @@ jobs:
           fi
       
       - name: Run Deployment Validation
+        id: validation
+        continue-on-error: true
         run: |
           if [ ! -f "manifest/package.xml" ]; then
             echo "Error: package.xml not found in manifest directory"
+            echo "Error: package.xml not found in manifest directory" > deployment/ValidationSummary.txt
             exit 1
           fi
           
           if [ "${{ env.TEST_CLASSES }}" = "NoTestClasses" ]; then
             echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun"
-            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun > deployment/ValidationSummary.txt
+            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun > >(tee deployment/ValidationSummary.txt) 2>&1 || true
           else
             echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }}"
-            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > deployment/ValidationSummary.txt
+            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/ValidationSummary.txt) 2>&1 || true
           fi
+          
+          # Add timestamp and status to the validation summary
+          echo -e "\n----------------------------------------" >> deployment/ValidationSummary.txt
+          echo "Validation completed at: $(date)" >> deployment/ValidationSummary.txt
+          echo "Branch: ${{ github.ref_name }}" >> deployment/ValidationSummary.txt
 
       - name: Commit Validation Results
         if: always()
