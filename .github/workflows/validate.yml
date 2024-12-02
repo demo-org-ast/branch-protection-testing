@@ -84,8 +84,8 @@ jobs:
             echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun"
             sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun > deployment/ValidationSummary.txt
           else
-            echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t "${{ env.TEST_CLASSES }}""
-            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t "${{ env.TEST_CLASSES }}" > deployment/ValidationSummary.txt
+            echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }}"
+            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > deployment/ValidationSummary.txt
           fi
 
       - name: Commit Validation Results
