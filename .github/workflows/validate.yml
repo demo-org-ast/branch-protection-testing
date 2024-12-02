@@ -92,10 +92,10 @@ jobs:
           
           if [ "${{ env.TEST_CLASSES }}" = "NoTestClasses" ]; then
             echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun"
-            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun > >(tee deployment/ValidationSummary.txt) 2>&1 || true
+            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun > >(tee deployment/ValidationSummary.txt) 2>&1
           else
             echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }}"
-            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/ValidationSummary.txt) 2>&1 || true
+            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/ValidationSummary.txt) 2>&1
           fi
           
           # Add timestamp and status to the validation summary
