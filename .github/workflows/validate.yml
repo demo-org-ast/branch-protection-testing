@@ -56,6 +56,7 @@ jobs:
       - name: Create Required Directories
         run: |
           mkdir -p deployment
+          rm deployment/ValidationSummary.txt
 
       - name: Authenticate with Salesforce
         run: |
@@ -98,7 +99,8 @@ jobs:
             sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/ValidationSummary.txt) 2>&1
           fi
           
-          # Add timestamp and status to the validation summary
+      - name: Add Timestamp and Status to Validation Summary
+        run: |
           echo -e "\n----------------------------------------" >> deployment/ValidationSummary.txt
           echo "Validation completed at: $(date)" >> deployment/ValidationSummary.txt
           echo "Branch: ${{ github.ref_name }}" >> deployment/ValidationSummary.txt
