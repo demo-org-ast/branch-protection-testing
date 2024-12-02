@@ -1,0 +1,56 @@
+name: Salesforce Deployment Validation
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  validate:
+    name: Validate
+    environment: ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    if: ${{ env.USERNAME != '' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install Salesforce CLI
+        run: |
+          npm install @salesforce/cli --global
+
+      - name: Create JWT Key File
+        run: |
+          echo "${{ secrets.JWT_KEY_FILE }}" > server.key
+
+      - name: Authenticate with Salesforce
+        run: |
+          sf org login jwt \
+            --username ${{ env.USERNAME }} \
+            --jwt-key-file server.key \
+            --client-id ${{ secrets.CONSUMER_KEY }} \
+      
+      - name: Get Test Classes
+        run: |
+          TEST_CLASSES=$(find force-app/main/default/classes -type f \( -name "*Test.cls" -o -name "*test.cls" \) -exec basename {} .cls \; | tr '\n' ' ')
+          echo "TEST_CLASSES=${TEST_CLASSES}" >> $GITHUB_ENV
+          echo "Found test classes: ${TEST_CLASSES}"
+      
+      - name: Run Deployment Validation
+        run: |
+          sf project deploy validate -o ${{ env.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t "${{ env.TEST_CLASSES }}" > deployment/ValidationSummary.txt
+
+      - name: Commit Validation Results
+        if: env.USERNAME != ''
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add deployment/ValidationSummary.txt
+          git commit -m "Add deployment validation results" || echo "No changes to commit"
+          git push
