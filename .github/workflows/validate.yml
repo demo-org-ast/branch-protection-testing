@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - '*'
+    paths:
+      - 'force-app/main/default/**'
+
+  workflow_dispatch:
 
 permissions:
   contents: write
