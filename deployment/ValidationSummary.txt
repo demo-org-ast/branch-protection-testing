@@ -1,0 +1,46 @@
+(node:1840) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Validating Deployment of v62.0 metadata to vedansh@creative-shark-ddvsjq.com using the v62.0 SOAP API.
+───── Validating Deployment ─────
+Stages:
+1. Preparing
+2. Waiting for the org to respond
+3. Deploying Metadata
+4. Running Tests
+5. Updating Source Tracking
+6. Done
+
+▶ Preparing…
+   Deploy ID: 0AfdM00000BvBwWSAV
+   Target Org: vedansh@creative-shark-ddvsjq.com
+✔ Preparing (309ms)
+◯ Waiting for the org to respond - Skipped
+▶ Deploying Metadata…
+   Components: 0/6 (0%)
+✔ Deploying Metadata (795ms)
+   Components: 6/6 (100%)
+▶ Running Tests…
+   Tests: 2/3 (67%)
+✘ Running Tests (797ms)
+   Tests: 3/3 (100%)
+
+Status: Failed
+Deploy ID: 0AfdM00000BvBwWSAV
+Target Org: vedansh@creative-shark-ddvsjq.com
+
+Elapsed time: 1.90s
+
+[34m[1mTest Results Summary[22m[39m
+Passing: 3
+Failing: 0
+Total: 3
+Time: 223
+ ›   Warning: Demo1 - Test coverage of selected Apex Class is 0%, at least 75% 
+ ›   test coverage is required
+[1m[31mError (FailedValidationError):[39m[22m Failed to validate the deployment (0AfdM00000BvBwWSAV). Due To:
+Demo1 - Test coverage of selected Apex Class is 0%, at least 75% test coverage is required
+
+
+----------------------------------------
+Validation completed at: Mon Dec  2 04:54:00 UTC 2024
+Branch: prod
