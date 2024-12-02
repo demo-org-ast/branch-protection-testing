@@ -1,4 +1,4 @@
-(node:1833) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:1904) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Validating Deployment of v62.0 metadata to vedansh@creative-shark-ddvsjq.com using the v62.0 SOAP API.
 ───── Validating Deployment ─────
@@ -11,36 +11,54 @@ Stages:
 6. Done
 
 ▶ Preparing…
-   Deploy ID: 0AfdM00000BvIJdSAN
+   Deploy ID: 0AfdM00000BvKEzSAN
    Target Org: vedansh@creative-shark-ddvsjq.com
-✔ Preparing (281ms)
+✔ Preparing (263ms)
 ◯ Waiting for the org to respond - Skipped
 ▶ Deploying Metadata…
    Components: 0/6 (0%)
-✔ Deploying Metadata (749ms)
+✔ Deploying Metadata (763ms)
    Components: 6/6 (100%)
 ▶ Running Tests…
    Tests: 2/3 (67%)
-✘ Running Tests (764ms)
+✔ Running Tests (795ms)
    Tests: 3/3 (100%)
+◯ Updating Source Tracking - Skipped
+▶ Done…
+✔ Done (0ms)
 
-Status: Failed
-Deploy ID: 0AfdM00000BvIJdSAN
+Status: Succeeded
+Deploy ID: 0AfdM00000BvKEzSAN
 Target Org: vedansh@creative-shark-ddvsjq.com
 
-Elapsed time: 1.79s
+Elapsed time: 1.82s
+
+[34m[1mValidated Source[22m[39m
+ State    Name       Type       Path                                                  
+--------------------------------------------------------------------------------------
+ Created  Demo1      ApexClass  force-app/main/default/classes/Demo1.cls              
+ Created  Demo1      ApexClass  force-app/main/default/classes/Demo1.cls-meta.xml     
+ Created  Demo1Test  ApexClass  force-app/main/default/classes/Demo1Test.cls          
+ Created  Demo1Test  ApexClass  force-app/main/default/classes/Demo1Test.cls-meta.xml 
+ Created  Demo2      ApexClass  force-app/main/default/classes/Demo2.cls              
+ Created  Demo2      ApexClass  force-app/main/default/classes/Demo2.cls-meta.xml     
+ Created  Demo2Test  ApexClass  force-app/main/default/classes/Demo2Test.cls          
+ Created  Demo2Test  ApexClass  force-app/main/default/classes/Demo2Test.cls-meta.xml 
+ Created  Demo3      ApexClass  force-app/main/default/classes/Demo3.cls              
+ Created  Demo3      ApexClass  force-app/main/default/classes/Demo3.cls-meta.xml     
+ Created  Demo3Test  ApexClass  force-app/main/default/classes/Demo3Test.cls          
+ Created  Demo3Test  ApexClass  force-app/main/default/classes/Demo3Test.cls-meta.xml 
+
 
 [34m[1mTest Results Summary[22m[39m
 Passing: 3
 Failing: 0
 Total: 3
-Time: 228
- ›   Warning: Demo1 - Test coverage of selected Apex Class is 0%, at least 75% 
- ›   test coverage is required
-[1m[31mError (FailedValidationError):[39m[22m Failed to validate the deployment (0AfdM00000BvIJdSAN). Due To:
-Demo1 - Test coverage of selected Apex Class is 0%, at least 75% test coverage is required
+Time: 200
 
+[1m[32mSuccessfully validated the deployment (0AfdM00000BvKEzSAN).[39m[22m
+Run "sf project deploy quick --job-id 0AfdM00000BvKEzSAN" to execute this deploy
 
 ----------------------------------------
-Validation completed at: Mon Dec  2 04:27:13 UTC 2024
+Validation completed at: Mon Dec  2 04:39:55 UTC 2024
 Branch: prod
