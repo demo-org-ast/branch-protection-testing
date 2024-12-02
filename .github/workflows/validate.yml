@@ -5,6 +5,9 @@ on:
     branches:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   check_environment:
     runs-on: ubuntu-latest
@@ -96,5 +99,5 @@ jobs:
             git config --local user.name "github-actions[bot]"
             git add deployment/ValidationSummary.txt
             git commit -m "Add deployment validation results [skip ci]" || echo "No changes to commit"
-            git push || echo "Failed to push changes"
+            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} || echo "Failed to push changes"
           fi
