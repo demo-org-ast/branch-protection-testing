@@ -11,6 +11,7 @@ Stages:
 6. Done
 
 ▶ Preparing…
+
    Deploy ID: 0AfdL00000CND91SAH
    Target Org: vedansh@playful-hawk-7wabrd.com
 ✔ Preparing (374ms)
@@ -23,12 +24,17 @@ Stages:
    Tests: 2/3 (67%)
 ✘ Running Tests (821ms)
    Tests: 3/3 (100%)
+◯ Updating Source Tracking - Skipped
+▶ Done…
+✔ Done (0ms)
+
 
 Status: Failed
 Deploy ID: 0AfdL00000CND91SAH
 Target Org: vedansh@playful-hawk-7wabrd.com
 
 Elapsed time: 2.01s
+
 
 [34m[1mTest Results Summary[22m[39m
 Passing: 3
@@ -40,7 +46,13 @@ Time: 224
 [1m[31mError (FailedValidationError):[39m[22m Failed to validate the deployment (0AfdL00000CND91SAH). Due To:
 Demo1 - Test coverage of selected Apex Class is 0%, at least 75% test coverage is required
 
+[1m[32mSuccessfully validated the deployment (0AfdM00000ByOabSAF).[39m[22m
+Run "sf project deploy quick --job-id 0AfdM00000ByOabSAF" to execute this deploy
 
 ----------------------------------------
+
+Validation completed at: Tue Dec  3 03:56:56 UTC 2024
+Branch: prod
+Deploy: sf project deploy quick --job-id 0AfdM00000ByOabSAF
 Validation completed at: Mon Dec  2 05:15:16 UTC 2024
 Branch: dev

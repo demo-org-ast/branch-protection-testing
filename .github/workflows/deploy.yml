@@ -108,7 +108,7 @@ jobs:
         if: env.HAS_DEPLOY_COMMAND == 'true'
         run: |
           echo "Running quick deploy command..."
-          ${{ env.DEPLOY_COMMAND }} > >(tee deployment/DeploymentSummary.txt) 2>&1
+          ${{ env.DEPLOY_COMMAND }} -o ${{ vars.USERNAME }} > >(tee deployment/DeploymentSummary.txt) 2>&1
 
       - name: Get Test Classes
         if: env.HAS_DEPLOY_COMMAND != 'true'
