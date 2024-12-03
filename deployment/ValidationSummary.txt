@@ -1,4 +1,4 @@
-(node:1905) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:1843) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Validating Deployment of v62.0 metadata to vedansh@creative-shark-ddvsjq.com using the v62.0 SOAP API.
 ───── Validating Deployment ─────
@@ -11,34 +11,31 @@ Stages:
 6. Done
 
 ▶ Preparing…
-   Deploy ID: 0AfdM00000ByJMQSA3
+   Deploy ID: 0AfdM00000BybHjSAJ
    Target Org: vedansh@creative-shark-ddvsjq.com
-✔ Preparing (287ms)
-◯ Waiting for the org to respond - Skipped
+✔ Preparing (335ms)
+▶ Waiting for the org to respond…
+✔ Waiting for the org to respond (863ms)
 ▶ Deploying Metadata…
-   Components: 0/6 (0%)
-✔ Deploying Metadata (801ms)
-   Components: 6/6 (100%)
+   Components: 4/4 (100%)
+✔ Deploying Metadata (823ms)
 ▶ Running Tests…
-   Tests: 3/3 (100%)
-✔ Running Tests (746ms)
+   Tests: 1/2 (50%)
+✔ Running Tests (832ms)
+   Tests: 2/2 (100%)
 ◯ Updating Source Tracking - Skipped
 ▶ Done…
 ✔ Done (0ms)
 
 Status: Succeeded
-Deploy ID: 0AfdM00000ByJMQSA3
+Deploy ID: 0AfdM00000BybHjSAJ
 Target Org: vedansh@creative-shark-ddvsjq.com
 
-Elapsed time: 1.83s
+Elapsed time: 2.85s
 
 [34m[1mValidated Source[22m[39m
  State      Name       Type       Path                                                  
 ----------------------------------------------------------------------------------------
- Unchanged  Demo1      ApexClass  force-app/main/default/classes/Demo1.cls              
- Unchanged  Demo1      ApexClass  force-app/main/default/classes/Demo1.cls-meta.xml     
- Unchanged  Demo1Test  ApexClass  force-app/main/default/classes/Demo1Test.cls          
- Unchanged  Demo1Test  ApexClass  force-app/main/default/classes/Demo1Test.cls-meta.xml 
  Unchanged  Demo2      ApexClass  force-app/main/default/classes/Demo2.cls              
  Unchanged  Demo2      ApexClass  force-app/main/default/classes/Demo2.cls-meta.xml     
  Unchanged  Demo2Test  ApexClass  force-app/main/default/classes/Demo2Test.cls          
@@ -50,15 +47,17 @@ Elapsed time: 1.83s
 
 
 [34m[1mTest Results Summary[22m[39m
-Passing: 3
+Passing: 2
 Failing: 0
-Total: 3
-Time: 276
+Total: 2
+Time: 137
 
-[1m[32mSuccessfully validated the deployment (0AfdM00000ByJMQSA3).[39m[22m
-Run "sf project deploy quick --job-id 0AfdM00000ByJMQSA3" to execute this deploy
+[1m[32mSuccessfully validated the deployment (0AfdM00000BybHjSAJ).[39m[22m
+Run "sf project deploy quick --job-id 0AfdM00000BybHjSAJ" to execute this deploy
+[1m[33mWarning:[39m[22m ApexClass, Demo1, returned from org, but not found in the local project
+[1m[33mWarning:[39m[22m ApexClass, Demo1Test, returned from org, but not found in the local project
 
 ----------------------------------------
-Validation completed at: Tue Dec  3 04:20:38 UTC 2024
+Validation completed at: Tue Dec  3 05:48:44 UTC 2024
 Branch: prod
-Deploy: sf project deploy quick --job-id 0AfdM00000ByJMQSA3
+Deploy: sf project deploy quick --job-id 0AfdM00000BybHjSAJ
