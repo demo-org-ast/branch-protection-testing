@@ -107,6 +107,7 @@ jobs:
           echo "HAS_DEPLOY_COMMAND=$([[ -n "$deploy_command" ]] && echo "true" || echo "false")" >> $GITHUB_ENV
 
       - name: Run Quick Deploy
+        id: quick_deploy
         if: env.HAS_DEPLOY_COMMAND == 'true'
         run: |
           echo "Running quick deploy command..."
@@ -130,22 +131,44 @@ jobs:
           fi
 
       - name: Run Deployment
+        id: deployment
         if: env.HAS_DEPLOY_COMMAND != 'true'
         continue-on-error: true
         run: |
+          # Check if package.xml exists
           if [ ! -f "manifest/package.xml" ]; then
             echo "Error: package.xml not found in manifest directory"
-            echo "Error: package.xml not found in manifest directory" > deployment/DeploymentSummary.txt
+            echo "Error: package.xml not found in manifest directory" > deployment/ValidationSummary.txt
+            exit 1
+          fi
+
+          # Check if destructiveChangesPre.xml exists
+          if [ ! -f "manifest/destructiveChangesPre.xml" ]; then
+            echo "Error: destructiveChangesPre.xml not found in manifest directory"
+            echo "Error: destructiveChangesPre.xml not found in manifest directory" > deployment/ValidationSummary.txt
+            exit 1
+          fi
+
+          # Check if destructiveChangesPost.xml exists
+          if [ ! -f "manifest/destructiveChangesPost.xml" ]; then
+            echo "Error: destructiveChangesPost.xml not found in manifest directory"
+            echo "Error: destructiveChangesPost.xml not found in manifest directory" > deployment/ValidationSummary.txt
             exit 1
           fi
           
           if [ "${{ env.TEST_CLASSES }}" = "NoTestClasses" ]; then
-            echo "Executing command: sf project deploy start -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun"
-            sf project deploy start -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun > >(tee deployment/DeploymentSummary.txt) 2>&1
+            echo "Executing command: sf project deploy start -o ${{ vars.USERNAME }} -x manifest/package.xml --pre-destructive-changes manifest/destructiveChangesPre.xml --post-destructive-changes manifest/destructiveChangesPost.xml -l NoTestRun"
+            sf project deploy start -o ${{ vars.USERNAME }} -x manifest/package.xml --pre-destructive-changes manifest/destructiveChangesPre.xml --post-destructive-changes manifest/destructiveChangesPost.xml -l NoTestRun > >(tee deployment/DeploymentSummary.txt) 2>&1
           else
-            echo "Executing command: sf project deploy start -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }}"
-            sf project deploy start -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/DeploymentSummary.txt) 2>&1
+            echo "Executing command: sf project deploy start -o ${{ vars.USERNAME }} -x manifest/package.xml --pre-destructive-changes manifest/destructiveChangesPre.xml --post-destructive-changes manifest/destructiveChangesPost.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }}"
+            sf project deploy start -o ${{ vars.USERNAME }} -x manifest/package.xml --pre-destructive-changes manifest/destructiveChangesPre.xml --post-destructive-changes manifest/destructiveChangesPost.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/DeploymentSummary.txt) 2>&1
           fi
+
+      - name: If deployment success, reset destructive changes xml
+        if: steps.deployment.outcome == 'success' || steps.quick_deploy.outcome == 'success'
+        run: |
+          sf project generate manifest --output-dir manifest --name destructiveChangesPost.xml --source-dir config
+          sf project generate manifest --output-dir manifest --name destructiveChangesPre.xml --source-dir config
 
       - name: Add Timestamp and Quick Deploy to Deployment Summary
         if: always()
@@ -163,6 +186,8 @@ jobs:
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
             git add deployment/DeploymentSummary.txt
+            git add manifest/destructiveChangesPre.xml
+            git add manifest/destructiveChangesPost.xml
             git commit -m "Add deployment results [skip ci]" || echo "No changes to commit"
             git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} || echo "Failed to push changes"
           fi
