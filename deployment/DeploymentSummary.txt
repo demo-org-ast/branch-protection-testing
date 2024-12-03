@@ -1,45 +1,8 @@
-(node:1869) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:1846) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-───── Deploying Metadata ─────
-Stages:
-1. Preparing
-2. Waiting for the org to respond
-3. Deploying Metadata
-4. Running Tests
-5. Updating Source Tracking
-6. Done
+[1m[31mError (NoTargetOrgError):[39m[22m No target org found in cache, from a flag, or in the environment.
 
-▶ Preparing…
-   Deploying v62.0 metadata to vedansh@creative-shark-ddvsjq.com using the v62.0 SOAP API.
-   Deploy ID: 0AfdM00000ByN55SAF
-   Target Org: vedansh@creative-shark-ddvsjq.com
-✔ Preparing (276ms)
-▶ Waiting for the org to respond…
-✔ Waiting for the org to respond (401ms)
-▶ Deploying Metadata…
-   Components: 0/6 (0%)
-✔ Deploying Metadata (743ms)
-   Components: 6/6 (100%)
-▶ Running Tests…
-   Tests: 2/3 (67%)
-✘ Running Tests (423ms)
-   Tests: 3/3 (100%)
-
-Deploying v62.0 metadata to vedansh@creative-shark-ddvsjq.com using the v62.0 SOAP API.
-Status: Failed
-Deploy ID: 0AfdM00000ByN55SAF
-Target Org: vedansh@creative-shark-ddvsjq.com
-
-Elapsed time: 1.84s
-
-[34m[1mTest Results Summary[22m[39m
-Passing: 3
-Failing: 0
-Total: 3
-Time: 211
- ›   Warning: Demo1 - Test coverage of selected Apex Class is 0%, at least 75% 
- ›   test coverage is required
 
 ----------------------------------------
-Deployment completed at: Tue Dec  3 03:54:54 UTC 2024
+Deployment completed at: Tue Dec  3 04:00:26 UTC 2024
 Branch: prod
