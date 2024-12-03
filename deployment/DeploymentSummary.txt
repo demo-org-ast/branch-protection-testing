@@ -1,22 +1,29 @@
-(node:1855) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:1871) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-Deploy ID: [1m0AfdM00000BySXlSAN[22m
-Deploy URL: [1mhttps://creative-shark-ddvsjq-dev-ed.trailblaze.my.salesforce.com/lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0AfdM00000BySXlSAN%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp[22m
+Deploy ID: [1m0AfdM00000BymcvSAB[22m
+Deploy URL: [1mhttps://creative-shark-ddvsjq-dev-ed.trailblaze.my.salesforce.com/lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0AfdM00000BymcvSAB%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp[22m
 
 [34m[1mDeployed Source[22m[39m
  State      Name       Type       Path                  
 --------------------------------------------------------
- Unchanged  Demo1      ApexClass  classes/Demo1.cls     
- Unchanged  Demo1Test  ApexClass  classes/Demo1Test.cls 
+ Deleted    Demo1      ApexClass  classes/Demo1.cls     
+ Deleted    Demo1Test  ApexClass  classes/Demo1Test.cls 
  Unchanged  Demo2      ApexClass  classes/Demo2.cls     
  Unchanged  Demo2Test  ApexClass  classes/Demo2Test.cls 
  Unchanged  Demo3      ApexClass  classes/Demo3.cls     
  Unchanged  Demo3Test  ApexClass  classes/Demo3Test.cls 
 
 
+[34m[1mDeleted Source[22m[39m
+ Name       Type       Path                  
+---------------------------------------------
+ Demo1      ApexClass  classes/Demo1.cls     
+ Demo1Test  ApexClass  classes/Demo1Test.cls 
 
-[1m[32mSuccessfully deployed (0AfdM00000BySXlSAN).[39m[22m
+
+
+[1m[32mSuccessfully deployed (0AfdM00000BymcvSAB).[39m[22m
 
 ----------------------------------------
-Deployment completed at: Tue Dec  3 04:21:59 UTC 2024
+Deployment completed at: Tue Dec  3 05:51:05 UTC 2024
 Branch: prod
