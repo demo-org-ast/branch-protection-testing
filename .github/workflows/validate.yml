@@ -105,14 +105,28 @@ jobs:
             echo "Error: package.xml not found in manifest directory" > deployment/ValidationSummary.txt
             exit 1
           fi
-          
+
+          # Check if destructiveChangesPre.xml exists
+          if [ ! -f "manifest/destructiveChangesPre.xml" ]; then
+            echo "Error: destructiveChangesPre.xml not found in manifest directory"
+            echo "Error: destructiveChangesPre.xml not found in manifest directory" > deployment/ValidationSummary.txt
+            exit 1
+          fi
+
+          # Check if destructiveChangesPost.xml exists
+          if [ ! -f "manifest/destructiveChangesPost.xml" ]; then
+            echo "Error: destructiveChangesPost.xml not found in manifest directory"
+            echo "Error: destructiveChangesPost.xml not found in manifest directory" > deployment/ValidationSummary.txt
+            exit 1
+          fi
+
           # If no test classes were found, use NoTestRun, otherwise use RunSpecifiedTests
           if [ "${{ env.TEST_CLASSES }}" = "NoTestClasses" ]; then
-            echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun"
-            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun > >(tee deployment/ValidationSummary.txt) 2>&1
+            echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml --pre-destructive-changes manifest/destructiveChangesPre.xml --post-destructive-changes manifest/destructiveChangesPost.xml -l NoTestRun"
+            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml --pre-destructive-changes manifest/destructiveChangesPre.xml --post-destructive-changes manifest/destructiveChangesPost.xml -l NoTestRun > >(tee deployment/ValidationSummary.txt) 2>&1
           else
-            echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }}"
-            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/ValidationSummary.txt) 2>&1
+            echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml --pre-destructive-changes manifest/destructiveChangesPre.xml --post-destructive-changes manifest/destructiveChangesPost.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }}"
+            sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml --pre-destructive-changes manifest/destructiveChangesPre.xml --post-destructive-changes manifest/destructiveChangesPost.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/ValidationSummary.txt) 2>&1
           fi
           
       - name: Add Timestamp and Quick Deploy to Validation Summary
