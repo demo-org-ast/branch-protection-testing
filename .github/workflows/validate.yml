@@ -10,6 +10,9 @@ on:
     # Trigger the workflow only on changes in the force-app/main/default directory
     paths:
       - 'force-app/main/default/**'
+      - 'manifest/package.xml'
+      - 'manifest/destructiveChangesPre.xml'
+      - 'manifest/destructiveChangesPost.xml'
 
   # Trigger the workflow manually
   workflow_dispatch:
