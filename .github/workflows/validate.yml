@@ -1,12 +1,17 @@
-name: Salesforce Deployment Validation
+# Workflow to validate deployment
+# Description: This workflow runs the sf project deploy validate command and commits the results to the repository
+name: Validation
 
 on:
   push:
+    # Trigger the workflow on push to any branch
     branches:
       - '*'
+    # Trigger the workflow only on changes in the force-app/main/default directory
     paths:
       - 'force-app/main/default/**'
 
+  # Trigger the workflow manually
   workflow_dispatch:
 
 permissions:
@@ -56,7 +61,7 @@ jobs:
       - name: Create Required Directories
         run: |
           mkdir -p deployment
-          rm deployment/ValidationSummary.txt
+          rm -f deployment/ValidationSummary.txt
 
       - name: Authenticate with Salesforce
         run: |
@@ -67,8 +72,13 @@ jobs:
       
       - name: Get Test Classes
         run: |
+          # Check if classes directory exists
           if [ -d "force-app/main/default/classes" ]; then
+
+            # Get test classes
             TEST_CLASSES=$(find force-app/main/default/classes -type f \( -name "*Test.cls" -o -name "*test.cls" \) -exec basename {} .cls \; | tr '\n' ' ')
+            
+            # Check if test classes were found
             if [ -z "$TEST_CLASSES" ]; then
               echo "No test classes found"
               echo "TEST_CLASSES=NoTestClasses" >> $GITHUB_ENV
@@ -76,6 +86,8 @@ jobs:
               echo "TEST_CLASSES=${TEST_CLASSES}" >> $GITHUB_ENV
               echo "Found test classes: ${TEST_CLASSES}"
             fi
+          
+          # If classes directory doesn't exist, set TEST_CLASSES to NoTestClasses
           else
             echo "Classes directory not found"
             echo "TEST_CLASSES=NoTestClasses" >> $GITHUB_ENV
@@ -85,12 +97,14 @@ jobs:
         id: validation
         continue-on-error: true
         run: |
+          # Check if package.xml exists
           if [ ! -f "manifest/package.xml" ]; then
             echo "Error: package.xml not found in manifest directory"
             echo "Error: package.xml not found in manifest directory" > deployment/ValidationSummary.txt
             exit 1
           fi
           
+          # If no test classes were found, use NoTestRun, otherwise use RunSpecifiedTests
           if [ "${{ env.TEST_CLASSES }}" = "NoTestClasses" ]; then
             echo "Executing command: sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun"
             sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l NoTestRun > >(tee deployment/ValidationSummary.txt) 2>&1
@@ -99,21 +113,26 @@ jobs:
             sf project deploy validate -o ${{ vars.USERNAME }} -x manifest/package.xml -l RunSpecifiedTests -t ${{ env.TEST_CLASSES }} > >(tee deployment/ValidationSummary.txt) 2>&1
           fi
           
-      - name: Add Timestamp and Status to Validation Summary
-        run: |
-          echo -e "\n----------------------------------------" >> deployment/ValidationSummary.txt
-          echo "Validation completed at: $(date)" >> deployment/ValidationSummary.txt
-          echo "Branch: ${{ github.ref_name }}" >> deployment/ValidationSummary.txt
-          
-          # Extract and add deploy command if validation succeeded
-          DEPLOY_CMD=$(grep -o "sf project deploy quick --job-id [0-9A-Za-z]\+" deployment/ValidationSummary.txt || true)
-          if [ ! -z "$DEPLOY_CMD" ]; then
-            echo "Deploy: $DEPLOY_CMD" >> deployment/ValidationSummary.txt
-          fi
-
-      - name: Commit Validation Results
+      - name: Add Timestamp and Quick Deploy to Validation Summary
         if: always()
         run: |
+          # Check if ValidationSummary.txt exists, add timestamp and quick deploy command
+          if [ -f "deployment/ValidationSummary.txt" ]; then
+            echo -e "\n----------------------------------------" >> deployment/ValidationSummary.txt
+            echo "Validation completed at: $(date)" >> deployment/ValidationSummary.txt
+            echo "Branch: ${{ github.ref_name }}" >> deployment/ValidationSummary.txt
+            
+            # Extract and add deploy command if validation succeeded
+            DEPLOY_CMD=$(grep -o "sf project deploy quick --job-id [0-9A-Za-z]\+" deployment/ValidationSummary.txt || true)
+            if [ ! -z "$DEPLOY_CMD" ]; then
+              echo "Deploy: $DEPLOY_CMD" >> deployment/ValidationSummary.txt
+            fi
+          fi
+
+      - name: Commit Validation Summary
+        if: always()
+        run: |
+          # Check if ValidationSummary.txt exists, commit changes
           if [ -f "deployment/ValidationSummary.txt" ]; then
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
